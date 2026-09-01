@@ -2,7 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public interface IConfigsLoader
+namespace _Project.Develop
 {
-    IEnumerator LoadAsync(Action<Dictionary<Type, object>> onConfigsLoaded);
+    public interface IConfigsLoader
+    {
+        IEnumerator LoadAsync(Action<Dictionary<Type, object>> onConfigsLoaded);
+    }
 }
