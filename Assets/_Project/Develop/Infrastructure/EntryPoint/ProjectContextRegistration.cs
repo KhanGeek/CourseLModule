@@ -13,7 +13,10 @@ namespace _Project.Develop
             container.RegisterAsSingle(CreateSceneLoaderService);
             container.RegisterAsSingle(CreateSceneSwitcherService);
             container.RegisterAsSingle<ILoadingScreen>(CreateStandartLoadingScreen);
+            container.RegisterAsSingle<IInputService>(CreatePlayerInput);
         }
+
+        private static PlayerInput CreatePlayerInput(DIContainer c) => new();
 
         private static SceneSwitcherService CreateSceneSwitcherService(DIContainer c)
             => new SceneSwitcherService(

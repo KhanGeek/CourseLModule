@@ -34,7 +34,7 @@ namespace _Project.Develop
             yield return new WaitForSeconds(1f);
             
             loadingScreen.Hide();
-
+            
             yield return sceneSwitcherService.ProcessSwitchTo(Scenes.MainMenu);
         }
     }

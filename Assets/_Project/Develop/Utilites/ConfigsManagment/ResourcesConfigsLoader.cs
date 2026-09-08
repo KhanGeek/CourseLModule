@@ -11,7 +11,7 @@ namespace _Project.Develop
 
         private readonly Dictionary<Type, string> _configsResourcesPaths = new()
         {
-
+            {typeof(GamePlayConfig), "Configs/GamePlayConfig"}
         };
 
         public ResourcesConfigsLoader(ResourcesAssetsLoader resources)
