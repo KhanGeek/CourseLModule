@@ -34,7 +34,12 @@ namespace _Project.Develop
             _gameCycle.StopGame += OnStopGame;
             _gameCycle.Prepare();
             
-            yield break;
+            yield return null;
+        }
+
+        private void OnDestroy()
+        {
+            _gameCycle.StopGame -= OnStopGame;
         }
 
         private void OnStopGame(bool isWin)
