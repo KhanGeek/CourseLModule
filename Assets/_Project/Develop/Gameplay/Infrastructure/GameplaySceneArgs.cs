@@ -2,11 +2,11 @@ namespace _Project.Develop
 {
     public class GameplaySceneArgs : IInputSceneArgs
     {
-        public GameplaySceneArgs(char[] chars)
+        public GameplaySceneArgs(string sequence)
         {
-            Chars = chars;
+            Sequence = sequence;
         }
 
-        public char[] Chars { get; private set; }
+        public string Sequence { get; private set; }
     }
 }

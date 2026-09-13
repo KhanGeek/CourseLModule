@@ -20,31 +20,19 @@ namespace _Project.Develop
                 throw new ArgumentException("Это не GameplaySceneArgs");
 
             _gameplaySceneArgs = gameplaySceneArgs;
-            
-            GameplayContextRegistration.Process(container);
+
+            GameplayContextRegistration.Process(container, _gameplaySceneArgs);
         }
 
         public override IEnumerator Initialize()
         {
             _updateServise = _container.Resolve<UpdateServise>();
 
-            _gameCycle = new GameCycle(_gameplaySceneArgs.Chars, _container.Resolve<IInputService>());
-            _updateServise.Add(_gameCycle);
+            _gameCycle = _container.Resolve<GameCycle>();
 
-            _gameCycle.StopGame += OnStopGame;
             _gameCycle.Prepare();
             
             yield return null;
-        }
-
-        private void OnDestroy()
-        {
-            _gameCycle.StopGame -= OnStopGame;
-        }
-
-        private void OnStopGame(bool isWin)
-        {
-            _container.Resolve<ICoroutinesPreformer>().StarPerform(WaitingInput(isWin));
         }
 
         public override void Run()
@@ -56,42 +44,6 @@ namespace _Project.Develop
         {
             if (_updateServise != null)
                 _updateServise.Update(Time.deltaTime);
-        }
-
-        private IEnumerator WaitingInput(bool isWin)
-        {
-            IInputService inputService = _container.Resolve<IInputService>();
-            ICoroutinesPreformer coroutinesPreformer = _container.Resolve<ICoroutinesPreformer>();
-            SceneSwitcherService sceneSwitcherService = _container.Resolve<SceneSwitcherService>();
-
-            while (true)
-            {
-                if (inputService.TryGetStream(out string input))
-                {
-                    if (input == " ")
-                    {
-                        if (isWin)
-                        {
-                            coroutinesPreformer.StarPerform(
-                                sceneSwitcherService.ProcessSwitchTo(
-                                    Scenes.MainMenu));
-                            
-                            yield break;
-                        }
-                        else
-                        {
-                            coroutinesPreformer.StarPerform(
-                                sceneSwitcherService.ProcessSwitchTo(
-                                    Scenes.Gameplay,
-                                    _gameplaySceneArgs));
-                            
-                            yield break;
-                        }
-                    }
-                }
-                yield return null;
-            }
-            
         }
     }
 }

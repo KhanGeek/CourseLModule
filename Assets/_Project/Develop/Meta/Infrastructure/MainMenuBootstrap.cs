@@ -21,13 +21,7 @@ namespace _Project.Develop
         {
             _updateServise = _container.Resolve<UpdateServise>();
             
-            _gameModeSwitcher = new GameModeSwitcher(
-                _container.Resolve<IInputService>(),
-                _container.Resolve<SceneSwitcherService>(),
-                _container.Resolve<ConfigsProviderService>(),
-                _container.Resolve<ICoroutinesPreformer>());
-            
-            _updateServise.Add(_gameModeSwitcher);
+            _gameModeSwitcher = _container.Resolve<GameModeSwitcher>();
 
             yield return null;
         }
@@ -35,6 +29,8 @@ namespace _Project.Develop
         public override void Run()
         {
             _gameModeSwitcher.Run();
+
+            _container.Resolve<GameModeSwitchChecker>();
         }
         
         private void Update()

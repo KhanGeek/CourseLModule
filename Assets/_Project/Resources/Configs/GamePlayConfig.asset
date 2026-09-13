@@ -12,3 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c76e9b14a6484b8cec353f84318430, type: 3}
   m_Name: GamePlayConfig
   m_EditorClassIdentifier: 
+  SequncesConfig:
+  - GameMode: 1
+    Sequence: 123456789
+  - GameMode: 2
+    Sequence: rwrvesczdv
