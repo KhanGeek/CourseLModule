@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Object = UnityEngine.Object;
 
 namespace _Project.Develop
@@ -13,6 +14,17 @@ namespace _Project.Develop
             container.RegisterAsSingle(CreateSceneLoaderService);
             container.RegisterAsSingle(CreateSceneSwitcherService);
             container.RegisterAsSingle<ILoadingScreen>(CreateStandartLoadingScreen);
+            container.RegisterAsSingle(CreateWalletService);
+        }
+
+        private static WalletService CreateWalletService(DIContainer c)
+        {
+            Dictionary<CurrencyTypes, ReactiveVariable<int>> currencies = new();
+
+            foreach (CurrencyTypes currencyType in Enum.GetValues(typeof(CurrencyTypes))) 
+                currencies[currencyType] = new ReactiveVariable<int>();
+            
+            return new WalletService(currencies);
         }
 
         private static SceneSwitcherService CreateSceneSwitcherService(DIContainer c)
@@ -45,14 +57,14 @@ namespace _Project.Develop
             return Object.Instantiate(coroutinesPerformer);
         }
         
-        private static StandartLoadingScreen CreateStandartLoadingScreen(DIContainer c)
+        private static StandardLoadingScreen CreateStandartLoadingScreen(DIContainer c)
         {
             ResourcesAssetsLoader resourcesAssetsLoader = c.Resolve<ResourcesAssetsLoader>();
 
-            StandartLoadingScreen standartLoadingScreen =
-                resourcesAssetsLoader.Load<StandartLoadingScreen>("Utilites/LoadScreen");
+            StandardLoadingScreen standardLoadingScreen =
+                resourcesAssetsLoader.Load<StandardLoadingScreen>("Utilites/LoadScreen");
             
-            return Object.Instantiate(standartLoadingScreen);
+            return Object.Instantiate(standardLoadingScreen);
         }
     }
 }
