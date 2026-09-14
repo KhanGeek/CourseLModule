@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace _Project.Develop
 {
-    public class StandartLoadingScreen : MonoBehaviour, ILoadingScreen
+    public class StandardLoadingScreen : MonoBehaviour, ILoadingScreen
     {
         public bool IsShown => gameObject.activeSelf;
 
