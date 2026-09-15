@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace _Project.Develop
@@ -15,6 +16,18 @@ namespace _Project.Develop
             container.RegisterAsSingle(CreateSceneSwitcherService);
             container.RegisterAsSingle<ILoadingScreen>(CreateStandartLoadingScreen);
             container.RegisterAsSingle(CreateWalletService);
+            container.RegisterAsSingle<ISaveLoadService>(CreateSaveLoadService);
+        }
+
+        private static SaveLoadService CreateSaveLoadService(DIContainer c)
+        {
+            IDataSerializer serializer = new JsonSerializer();
+            IDataKeysStorage keysStorage = new MapDataKeysStorage();
+
+            string saveFilePath = Application.persistentDataPath;
+            IDataRepository repository = new LocalFileDataRepository(saveFilePath, "json");
+
+            return new SaveLoadService(serializer, keysStorage, repository);
         }
 
         private static WalletService CreateWalletService(DIContainer c)
